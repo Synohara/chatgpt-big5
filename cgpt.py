@@ -1,0 +1,53 @@
+from revChatGPT.ChatGPT import Chatbot
+import itertools
+
+# For the config please go here:
+# https://github.com/acheong08/ChatGPT/wiki/Setup
+chatbot = Chatbot({
+    "session_token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..xUr-9jzJ8Pb0Gzmf.UXFk3yOypIqUQ_JSIbrJnyfOQh_0SOriAnsue1Mx2lfOhPz4gIyburOtMbEWLOsWL5cS7Jb4F649dm8ppmGaTdLEjTL8TNSrAHI2supVHJk7G-lCBAsbgj1eYokZJTyNQw-EIiD_5aGnH2YWPK-YRFaGmZwo4q-cw79V929PycUJJ8_VmyNTTHnla4MibmL5X1sOpd7onLk_iBLZg63CT5kRNtLdA2ZCqe2vmLUQah1BbhXuiqzN0Okvsqz1T-f2NBcrX0nFHv7fNoVC4NQ03uEQvJYgK3gzdl5wU3yX9EEST432f5qF-71ow1nHUoTasE30PZ170_WNOZvE6ESk7lUVg5axDgGbbtgUTcZ-jvMyzzanyfZaKSywcN-lxI_ISMM9OO1puH56bVRRlhufEsCFciSHrBJc7VjOdDG2Jwu5kd0Oesgol51thA0CFRWBW7Dlm3ixJSWKMQKI8lHpl2RSc7XzkgsMUScXsZ3O2bnn2vuUoOKkKoCsEv8P2xmEc8yCyjknl-6_fDVlZFByQ9QoE8jeLCI4NDaFnjy-Pno4ZZaED9YgXXl8fk4_rxXlDXc-9c2KG4UUIPzh1YiJKT-EkBRyRkM_ifGdi1KTY5Lw2Evo1exbYytBpTn1op1X-sOG8c0H9PxX1qqY9rWGaWrIO19HDy2uTPynCowb5iXKTgfZ6WMSiijRPhDegI-yGgAcHCz1nTZiSTs7T8yu2OAMwK7MSikCUSp7V2y2Nv5LDhqufUcwEseUf9C567E4fDo9Dvl4R6WYuDNSN24HAZr9jCGH-R5nCeKlmmUoluNEqTDYpq7-GpX7i66hznjdVTlAbmd1xxipDkHHBo5Eyy3ts5ydnGgh87VPZcOCfwOMUX7k5r2z0gGv-S9QwL0uoUnsj8SbE4QotVM3zRunpwfN1eau3UGmOiXBFJ_pd2wCxjeBAKQ-q1j3O1QltaC823mWLv5lc6lBNUhQz_gRB3xcYusOJOew5KsY5Yu5IwFyiWVPN_2E2shos_kWF80e08aJ7tCC2phFReDQ9AsbbcH5qFgh9xLDn3Jq2lBG_zHoUHU8ys6cbnPjtBGFaOCqY_8ajI5acuCIJ-boZvvnlIGeELZ2OxN8hWHctrrs7wLh-z9_AjKdbP996NtQHbwL8K7R4igGM8EeG7JBEp2uveRsoLbwXCaUH1zLMzKnq4y12RZkp62k4ls6ZMMb-W_WEJgWe5FuEFuwZtmKO0PVCKR50ulZA9Q9wF6TeMSaYWsHbv8bnzcb7L9P6jR1SDS3oawfCb15F6hM6-vMBwjKGZaXw8nBHP1LqkIshYMrO4WFlzntqBtUJ6sfa3OlBN20ActnPwdOO2mJV9pWeUFLZHt-7VlWy5PcOuozvd7_vWhCVnM-8JJ_y9ja1A1nhVH1tYlUNJKDnPxPtEzs0Kg8hLS1F_1CE92Rkb8HvH31kbtHLdUNItCc5F55_at_t9idJ6gVRgBDFbnSuhnlHbVNaQEcZA75j_4rCraSaQFURe8Y-NeJKBTuSVBcX-taadoFAHWZpFRVzlI98jasVdGfAg8jd99rlsgM_O4yztzjXq7V1k9OCRU7KlAbgFMEKSSzXWADM1oUt0isD8IdW7CHdDs6cZcuCNDwqvLCuuESDWQ7JivZ32xIJ4PbzmVvJlMG5pnAk0Syg69O4kefuJdEB6oyxfXdVy3-euxiSV5BHKLTvb2Q1IMgrbhvK83uXC8b-F-lst2RHBGVDLzTGoNcSRMnPI1i4jomwn6b4m4DwecXG_7YttJNldwojS-vjLbVCrrfmrBAH1KvNISv_-Hr8xeTuE_sGaV415zLT7V5uLZca4S7nsZAPd5hZ47bLedcZTmf-cqztCMoSwnvd-mghyimGODCXIHjjDnZ5gm9oLU5k7uCIKCGR_5n8TxVp3Obv6lysKHRYoF0i6DwjSMhTK9OMTu3qJx_CJ8ztVSJkXnCRSJ14cYrBuFK-f--UcoBFO2gJvOR87TamyvrMIlhsXRehAor-Oekq6Gfm0ZM4W89js2k7kXrW_eBDyYmT-AshthXL-j9nH9lTYoK9Q59CE6_A3w_Q6Q3ompxmVhWwJORZY3e2VtlKCUrJzKnMhwWat1kYCeTZ9DKQvPEcCZAoCNKHJj4RITM8QGm2IAcyBICEVomVHQf7gucguNfTTpcoEPAFOeBd9yFXF6Q2iv8auJi5xHMH3vxrxp-K2uE7EqbcFxi4y1riuwm_-t432B2eotlxhNT2TkQseeCE5M54Qk3E0YG0oRQtpZDr45IfeK4dsdyIjipLEUSDyem_Q-SKd01jNoaJ-KwBgf4bmSVeFHE9UZnPMzbQMqTpu6TjoY9hKmn-ax-orwCgZCbhcaln4JFG9E9USqRUA0JIV222jqSBF17clEX8zzUBYFsqTxD_iQ9GWQw2XJGGyx4HuyMW9rsRBQ1PAxtFGA-4_K2midIBAVWeh12HMoBSOG7O7WDWefYzxIRbwTFDgsdca3Psw7mRfnC5z7smgrLBi8RdZ1K3L5qlqaVctUlXcotBEvOdjnndcTOYh1621FCWYcVSvCJIKvZMg_ta5RB_LuAni1Gua6n2UNlPqsBeEmwDTuxsaIklda6tADrFedtguCP7wgPxlq0qycRwJPc51-H_fRPR4mTscR5dhiqz5Fs1LaC4ZuY-Q.n2WvNY3hkiBB0ZXZG6QzXw"
+}, conversation_id=None, parent_id=None)  # You can start a custom conversation
+
+
+high = "高い"
+low = "低い"
+pillow = """
+以下の性格の人MakotoになりきってKazutoと会話をしてください。
+性格のことについて言及する必要はありません。
+できるだけシンプルな受け答えをしてください。
+協調性：{agreeableness}
+誠実性：{conscientiousness}
+外向性：{extraversion}
+神経症傾向：{neuroticism}
+開放性：{openness}
+"""
+
+
+p_1 = pillow.format(
+    agreeableness=high,
+    conscientiousness=high,
+    extraversion=high,
+    neuroticism=low,
+    openness=high,
+)
+
+p_2 = pillow.format(
+    agreeableness=low,
+    conscientiousness=low,
+    extraversion=low,
+    neuroticism=high,
+    openness=low,
+)
+
+text = """
+Kazuto: あなたが人の暖かさを感じるときはどんな時ですか？
+Makoto: 
+"""
+print("   ")
+print(text)
+
+response = chatbot.get_chat_response(p_1 + text, output="text")
+print(response)
+
+
+response = chatbot.get_chat_response(p_2 + text, output="text")
+print(response)
