@@ -47,23 +47,39 @@ def post_big5(file, save_dir):
     # result += "質問回答からのBig5\n\n"
     result_map = {}
     for tr in score_trs:
-        if re.search("[0-9].点[^）]", tr.text) and len(tr.text) <= 100:
+        if re.search("[0-9]*点[^）]", tr.text) and len(tr.text) <= 50:
             # result += tr.text.strip().replace("\n", ":").replace(" ",
             #                                                      "").replace("　", "").replace("::", ":") + "\n"
             r = tr.text.strip().replace("\n", ":").replace(
                 " ", "").replace("　", "").replace("::", ":").split(":")
-            result_map[r[0]] = f"{r[2]}({r[1]})" 
+            if len(r) == 3:
+                result_map[r[0]] = f"{r[2]}({r[1]})" 
     for item in result_map.items():
         if item[0] != "自己ギャップ":
             result += f"{item[0]} 指示:{input_map[item[0]]} 結果:{item[1]}\n"
 
     print(result, file=codecs.open(
         f'{save_dir}/{os.path.splitext(os.path.basename(file))[0]}_result', 'w', 'utf-8'))
+    return result
 
-
+zeroshot_result = ""
+tokutyogo_result = ""
+tipi_j_result = ""
 for file in zeroshot_files:
-    post_big5(file, "zeroshot_results")
+    result = post_big5(file, "zeroshot_results")
+    zeroshot_result += result + "\n"
+    zeroshot_result += "----------------------------\n"
+    print(zeroshot_result, file=codecs.open(
+        f'zeroshot_results/zeroshot_result', 'w', 'utf-8'))
 for file in tokutyogo_files:
-    post_big5(file, "tokutyogo_results")
+    result = post_big5(file, "tokutyogo_results")
+    tokutyogo_result += result + "\n"
+    tokutyogo_result += "----------------------------\n"
+    print(tokutyogo_result, file=codecs.open(
+        f'tokutyogo_results/tokutyogo_result', 'w', 'utf-8'))
 for file in tipi_j_files:
-    post_big5(file, "tipi_j_results")
+    result = post_big5(file, "tipi_j_results")
+    tipi_j_result += result + "\n"
+    tipi_j_result += "----------------------------\n"
+    print(tipi_j_result, file=codecs.open(
+        f'tipi_j_results/tipi_j_result', 'w', 'utf-8'))
