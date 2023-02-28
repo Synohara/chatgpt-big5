@@ -7,12 +7,14 @@ import itertools
 import os
 
 from revChatGPT.V1 import Chatbot
+from chatgpt_wrapper import ChatGPT
+
 
 OPENAI_MAIL_ADDRESS = os.environ.get("OPENAI_MAIL_ADDRESS")
 OPENAI_PASSWORD = os.environ.get("OPENAI_PASSWORD")
-OPENAI_PAID_STATUS = os.environ.get("OPENAI_PAID_STATUS", False)
+OPENAI_PAID_STATUS = bool(os.environ.get("OPENAI_PAID_STATUS", False))
 
-async def main():
+def main():
     tipi_j_ans_1 = [1, 7, 1, 7, 1, 7, 1, 7, 1, 7]
     tipi_j_ans_2 = [7, 1, 7, 1, 7, 1, 7, 1, 7, 1]
 
@@ -78,9 +80,8 @@ async def main():
 3:どちらともいえない
 4:少し当てはまる
 5:とても当てはまる
-の5段階評価でどう答えますか。
+の5段階評価でどう答えますか。それぞれの質問に対して「Q質問番号. 番号」のように回答ください。
 """
-#     回答の根拠も同時に教えて下さい。
 
     text = """Q1. すぐ友だちを作ることできる
 Q2. 人に会うことは，ワクワクする
@@ -152,47 +153,49 @@ Q66. 優れた賞を持っており，優れた賞を活かせる"""
     text_list = text.split('\n')
     n = 10
 
-    chatbot = Chatbot(config={
-        "email": OPENAI_MAIL_ADDRESS,
-        "password": OPENAI_PASSWORD,
-        "paid": OPENAI_PAID_STATUS
-    })
+    # chatbot = Chatbot(config={
+    #     "email": OPENAI_MAIL_ADDRESS,
+    #     "password": OPENAI_PASSWORD,
+    #     "paid": OPENAI_PAID_STATUS
+    # })
+    chatbot = ChatGPT()
+
+    
+
 
     inp_list = ["低い", "高い"]
     products = list(itertools.product(inp_list, repeat=5))
 
-    for p in products[27:]:
-        ans = """外向性:{extraversion}
-協調性:{agreeableness}
-勤勉性:低い:{conscientiousness}
-情緒安定性:{neuroticism}
-開放性:{openness}
-        """.format(openness=p[0],
-                   conscientiousness=p[1],
-                   extraversion=p[2],
-                   agreeableness=p[3],
-                   neuroticism=p[4])
-        for i in range(0, len(text_list), n):
-            tmp_q = '\n'.join(text_list[i: i+n])
+    for p in products:
+        if (p[0] == "低い" and p[1] == "高い" and p[2] == "高い" and p[3] == "高い" and p[4] == "高い"):
+            chatbot.new_conversation()
+            ans = """外向性:{extraversion}
+    協調性:{agreeableness}
+    勤勉性:{conscientiousness}
+    情緒安定性:{neuroticism}
+    開放性:{openness}
+            """.format(openness=p[0],
+                    conscientiousness=p[1],
+                    extraversion=p[2],
+                    agreeableness=p[3],
+                    neuroticism=p[4])
+            for i in range(0, len(text_list), n):
+                tmp_q = '\n'.join(text_list[i: i+n])
 
-            # print(pillow + tmp_q)
-            for data in chatbot.ask(pillow.format(ans_1=ans_1,
-                                                  ans_2=ans_2,
-                                                  openness=p[0],
-                                                  conscientiousness=p[1],
-                                                  extraversion=p[2],
-                                                  agreeableness=p[3],
-                                                  neuroticism=p[4]) + tmp_q,   conversation_id=chatbot.config.get("conversation"),
-                                    parent_id=chatbot.config.get("parent_id"),):
-                pass
-            print(data["message"], end="", flush=True)
-            ans += data["message"] + "\n"
-        print(ans, file=codecs.open(f'tipi_j_answers/o_{p[0]}_c_{p[1]}_e_{p[2]}_a_{p[3]}_n_{p[4]}.txt', 'w', 'utf-8'))
+                tmp_ans  = chatbot.ask(pillow.format(ans_1=ans_1,
+                                                    ans_2=ans_2,
+                                                    openness=p[0],
+                                                    conscientiousness=p[1],
+                                                    extraversion=p[2],
+                                                    agreeableness=p[3],
+                                                    neuroticism=p[4]) + tmp_q)
+                ans += tmp_ans + "\n"
+            print(ans)
+            print(ans, file=codecs.open(f'tipi_j_answers/o_{p[0]}_c_{p[1]}_e_{p[2]}_a_{p[3]}_n_{p[4]}.txt', 'w', 'utf-8'))
 
 high = "高い"
 low = "低い"
 
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    main()
