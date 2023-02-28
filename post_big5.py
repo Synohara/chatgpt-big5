@@ -33,7 +33,7 @@ def post_big5(file, save_dir):
     score_trs = soup.find_all('tr')
     result = ""
     input = os.path.splitext(os.path.basename(file))[0].split("_")
-    input = f"開放性:{input[1]}\n誠実性:{input[3]}\n外向性:{input[5]}\n協調性:{input[7]}\n情緒安定性:{input[9]}"
+    input = f"外向性:{input[5]}\n情緒安定性:{input[9]}\n誠実性:{input[3]}\n協調性:{input[7]}\n開放性:{input[1]}"
     result += "インプットしたBig5\n\n" + input + "\n"
     result += "------------------------------\n"
     result += "質問回答からのBig5\n\n"
