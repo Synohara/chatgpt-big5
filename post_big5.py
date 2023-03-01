@@ -4,6 +4,9 @@ import re
 import glob
 import codecs
 import os
+from collections import defaultdict
+from statistics import mean
+
 
 url = "http://www.sinritest.com/bigfive/STRbigfive.php"
 init_data = {'q01': '5', 'q02': '5', 'q03': '5', 'q04': '5', 'q05': '5', 'q06': '5', 'q07': '5', 'q08': '5', 'q09': '5', 'q10': '5', 'q11': '5', 'q12': '5', 'q13': '5', 'q14': '5', 'q15': '5', 'q16': '5', 'q17': '5', 'q18': '5', 'q19': '5', 'q20': '5', 'q21': '5', 'q22': '5', 'q23': '5', 'q24': '5', 'q25': '5', 'q26': '5', 'q27': '5', 'q28': '5', 'q29': '5', 'q30': '5', 'q31': '5', 'q32': '5', 'q33': '5', 'q34': '5', 'q35': '5', 'q36': '5', 'q37': '5',
@@ -60,26 +63,56 @@ def post_big5(file, save_dir):
 
     print(result, file=codecs.open(
         f'{save_dir}/{os.path.splitext(os.path.basename(file))[0]}_result', 'w', 'utf-8'))
-    return result
+    
+    # 一致率を見る
+    match = {}
+    for key in input_map.keys():
+        if input_map[key]  == "低い" and ("普通" in result_map[key] or "低い" in result_map[key]):
+            match[key] = True
+        elif input_map[key]  == "高い" and "高い" in result_map[key]:
+            match[key] = True
+        else:
+            match[key] = False
+
+    
+    return result, match
 
 zeroshot_result = ""
 tokutyogo_result = ""
 tipi_j_result = ""
+
+zeroshot_match = defaultdict(lambda: 0)
+tokutyogo_match = defaultdict(lambda: 0)
+tipi_j_match = defaultdict(lambda: 0)
 for file in zeroshot_files:
-    result = post_big5(file, "zeroshot_results")
+    result, match = post_big5(file, "zeroshot_results")
+    for key in match.keys():
+        zeroshot_match[key] += match[key]
     zeroshot_result += result + "\n"
     zeroshot_result += "----------------------------\n"
     print(zeroshot_result, file=codecs.open(
         f'zeroshot_results/zeroshot_result', 'w', 'utf-8'))
 for file in tokutyogo_files:
-    result = post_big5(file, "tokutyogo_results")
+    result, match = post_big5(file, "tokutyogo_results")
+    for key in match.keys():
+        tokutyogo_match[key] += match[key]
     tokutyogo_result += result + "\n"
     tokutyogo_result += "----------------------------\n"
     print(tokutyogo_result, file=codecs.open(
         f'tokutyogo_results/tokutyogo_result', 'w', 'utf-8'))
 for file in tipi_j_files:
-    result = post_big5(file, "tipi_j_results")
+    result, match = post_big5(file, "tipi_j_results")
+    for key in match.keys():
+        tipi_j_match[key] += match[key]
     tipi_j_result += result + "\n"
     tipi_j_result += "----------------------------\n"
     print(tipi_j_result, file=codecs.open(
         f'tipi_j_results/tipi_j_result', 'w', 'utf-8'))
+
+print(dict(zeroshot_match))
+print(mean(list(zeroshot_match.values())))
+print(dict(tokutyogo_match))
+print(mean(list(tokutyogo_match.values())))
+print(dict(tipi_j_match))
+print(mean(list(tipi_j_match.values())))
+
