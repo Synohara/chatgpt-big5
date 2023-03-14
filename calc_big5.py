@@ -14,11 +14,11 @@ polarities = [
     "+", "-", "+", "-", "+", "-", "+", "+", "+", "+"  # O MIN:-8  MAX:32
 ]
 
-E = {"High": 20, "Mid High": 10 , "Middle": 0, "Mid Low": -10, "Low": -20}
-N = {"High": 2, "Mid High": -8 , "Middle": -18, "Mid Low": -28, "Low": -38}
-A = {"High": 26, "Mid High": 16 , "Middle": 6, "Mid Low": -4, "Low": -14}
-C = {"High": 26, "Mid High": 16 , "Middle": 6, "Mid Low": -4, "Low": -14}
-O = {"High": 32, "Mid High": 22 , "Middle": 12, "Mid Low": 2, "Low": -8}
+E = {"High": 50, "Mid High": 40 , "Middle": 30, "Mid Low": 20, "Low": 10}
+N = {"High": 50, "Mid High": 40 , "Middle": 30, "Mid Low": 20, "Low": 10}
+A = {"High": 50, "Mid High": 40 , "Middle": 30, "Mid Low": 20, "Low": 10}
+C = {"High": 50, "Mid High": 40 , "Middle": 30, "Mid Low": 20, "Low": 10}
+O = {"High": 50, "Mid High": 40 , "Middle": 30, "Mid Low": 20, "Low": 10}
 
 score_mapping = {
     "ext": E,
@@ -34,7 +34,7 @@ def calc_score(answers_file):
     with open(answers_file) as f:
         answers = f.read()
     for a in answers.split("\n"):
-        pattern = r"^Q([1-9]*)\. (.+)$"
+        pattern = r"^[AQ]([1-9]*)\. (.+)$"
         # 文字列からパターンにマッチする部分を検索
         match = re.search(pattern, a)
         # マッチした部分を取り出す
@@ -50,7 +50,7 @@ def calc_score(answers_file):
             if polarity == "+":
                 score += int(ans)
             elif polarity == "-":
-                score -= int(ans)
+                score += 6 - int(ans)
         scores.append(score)
         
     big5_list = ["E", "N", "A", "C", "O"]
@@ -61,7 +61,7 @@ def calc_score(answers_file):
 
 if __name__ == "__main__":
     
-    answers_files = glob.glob("api_tokutyogo_en/*")
+    answers_files = glob.glob("api_tokutyogo_en_2/*")
     
     diff_all = defaultdict(lambda: 0)
     diff_mape_all = defaultdict(lambda: 0)
@@ -85,8 +85,10 @@ if __name__ == "__main__":
             diff_mape_dict[item[0]] = diff_mape
         print(file)
         print(dict(sorted(score_dict.items())))
+        if score_dict["A"] == 0:
+            exit("だめだ")
         print(dict(sorted(instructions_dict.items())))
-        print(dict(sorted(diff_dict.items())))
+        # print(dict(sorted(diff_dict.items())))
         
         for item in diff_dict.items(): 
             diff_all[item[0]] += abs(item[1])
