@@ -130,7 +130,8 @@ Q50. I am full of ideas.
 question_list = question.split('\n')
 n = 10
 
-inp_list = ["Low", "High", "Middle", "Mid Low", "Mid High"]
+# inp_list = ["Low", "High", "Middle", "Mid Low", "Mid High"]
+inp_list = ["Low", "High", "Middle"]
 
 products = list(itertools.product(inp_list, repeat=5))
 
@@ -144,37 +145,13 @@ patterns = [{
     for p in products]
 
 print(len(patterns))
-# patterns = [
-#     {"extraversion": "High", "agreeableness": "High",
-#         "conscientiousness": "High", "neuroticism": "High", "openness": "High"},
-#     {"extraversion": "Low", "agreeableness": "Low",
-#         "conscientiousness": "Low", "neuroticism": "Low", "openness": "Low"},
-#     {"extraversion": "Middle", "agreeableness": "Middle",
-#         "conscientiousness": "Middle", "neuroticism": "Middle", "openness": "Middle"},
-#     {"extraversion": "High", "agreeableness": "Low",
-#         "conscientiousness": "Low", "neuroticism": "Low", "openness": "High"},
-#     {"extraversion": "Mid Low", "agreeableness": "Middle",
-#         "conscientiousness": "Mid High", "neuroticism": "High", "openness": "Mid Low"},
-# ]
 
-for pattern in patterns[19:300]:
+
+for pattern in patterns[161:]:
     file_name = ""
     for item in pattern.items():
         file_name += item[0][:3] + "_" + item[1] + "_"
     file_name = file_name[:-1] + ".txt"
-    # ans = ""
-    # for i in range(0, len(question_list), n):
-    #     tmp_q = '\n'.join(question_list[i: i+n])
-    #     res = openai.ChatCompletion.create(
-    #     model="gpt-3.5-turbo",
-    #         messages=[
-    #             {
-    #                 "role": "user",
-    #                 "content": system_settings.format(**pattern) + "\n" + tmp_q
-    #             }
-    #         ],
-    #     )
-    #     ans += res["choices"][0]["message"]["content"]
     res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
