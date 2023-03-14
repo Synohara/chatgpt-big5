@@ -7,11 +7,11 @@ from collections import Counter
 n = 10
 
 polarities = [
-    "+", "-", "+", "-", "+", "-", "+", "-", "+", "-", # E MIN:-20 MAX:20
-    "-", "+", "-", "+", "-", "-", "-", "-", "-", "-", # N MIN:-38 MAX:2
-    "-", "+", "-", "+", "-", "+", "-", "+", "+", "+", # A MIN:-14 MAX:26
-    "+", "-", "+", "-", "+", "-", "+", "-", "+", "+", # C MIN:-14 MAX:26
-    "+", "-", "+", "-", "+", "-", "+", "+", "+", "+"  # O MIN:-8  MAX:32
+    "+", "-", "+", "-", "+", "-", "+", "-", "+", "-",
+    "-", "+", "-", "+", "-", "-", "-", "-", "-", "-",
+    "-", "+", "-", "+", "-", "+", "-", "+", "+", "+",
+    "+", "-", "+", "-", "+", "-", "+", "-", "+", "+",
+    "+", "-", "+", "-", "+", "-", "+", "+", "+", "+" 
 ]
 
 E = {"High": 50, "Mid High": 40 , "Middle": 30, "Mid Low": 20, "Low": 10}
@@ -85,10 +85,7 @@ if __name__ == "__main__":
             diff_mape_dict[item[0]] = diff_mape
         print(file)
         print(dict(sorted(score_dict.items())))
-        if score_dict["A"] == 0:
-            exit("だめだ")
         print(dict(sorted(instructions_dict.items())))
-        # print(dict(sorted(diff_dict.items())))
         
         for item in diff_dict.items(): 
             diff_all[item[0]] += abs(item[1])
