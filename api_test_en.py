@@ -75,15 +75,15 @@ On a scale of 1=Disagree, 3=Neutral, 5=Agree, how would you answer the following
 
 
 question = """
-Q1.	I am the life of the party.
-Q2.	I don't talk a lot.
-Q3.	I feel comfortable around people.
-Q4.	I keep in the background.
-Q5.	I start conversations.
-Q6.	I have little to say.
-Q7.	I talk to a lot of different people at parties.
-Q8.	I don't like to draw attention to myself.
-Q9.	I don't mind being the center of attention.
+Q1. I am the life of the party.
+Q2. I don't talk a lot.
+Q3. I feel comfortable around people.
+Q4. I keep in the background.
+Q5. I start conversations.
+Q6. I have little to say.
+Q7. I talk to a lot of different people at parties.
+Q8. I don't like to draw attention to myself.
+Q9. I don't mind being the center of attention.
 Q10. I am quiet around strangers.
 Q11. I get stressed out easily.
 Q12. I am relaxed most of the time.
